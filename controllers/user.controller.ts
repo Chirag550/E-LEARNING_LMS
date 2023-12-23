@@ -11,6 +11,7 @@ import {
   sendToken,
 } from "../utils/jwt";
 import { getUserById } from "../services/user.services";
+import cloudinary from "cloudinary";
 
 //register user
 interface IRegisterationBody {
@@ -37,8 +38,8 @@ export const registerationUser = CatchAsyncError(
       };
 
       const activationToken = createActivationToken(user);
-      const activationCode = activationToken.activationCode;
-      const data = { user: { name: user.name }, activationCode };
+      const activationCode = activationToken.activationCode; //otp
+      const data = { user: { name: user.name }, activationCode }; //otp
 
       // const html = await ejs.renderFile(
       //   path.join(__dirname, "../mails/activation-mails.ejs"),
@@ -56,7 +57,7 @@ export const registerationUser = CatchAsyncError(
         res.status(201).json({
           success: true,
           message: `Please check your email: ${user.email} to activate your account`,
-          aactivationToken: activationToken.token,
+          activationToken: activationToken.token,
         });
       } catch (error) {}
     } catch (error: any) {
@@ -158,6 +159,9 @@ export const logoutUser = CatchAsyncError(
     try {
       res.cookie("access_token", "", { maxAge: 1 });
       res.cookie("refresh_token", "", { maxAge: 1 });
+      const userId = req.user?._id || "";
+
+      redis.del(userId);
       res.status(200).json({
         success: true,
         message: "Logged out successfully",
@@ -283,5 +287,93 @@ export const updateUserInfo = CatchAsyncError(
         user,
       });
     } catch (error) {}
+  }
+);
+
+interface IupdatePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+//change password
+export const updatePassword = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { oldPassword, newPassword } = req.body as IupdatePassword;
+      if (!oldPassword || !newPassword) {
+        return next(new ErrorHandler("Please enter old and new password", 400));
+      }
+      const user = await userModel.findById(req.user?._id).select("+password");
+
+      if (user?.password === undefined) {
+        return next(new ErrorHandler("Invalid old Password", 400));
+      }
+
+      const isPasswordMatch = await user?.comparepassword(oldPassword);
+
+      if (!isPasswordMatch) {
+        return next(new ErrorHandler("Invalid old Password", 400));
+      }
+
+      user.password = newPassword;
+
+      await user.save();
+      await redis.set(req.user?._id, JSON.stringify(user));
+
+      res.status(201).json({
+        user,
+        success: true,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+interface IUpdateProfilePicture {
+  avatar: string;
+}
+export const updateProfilePicture = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { avatar } = req.body;
+
+      const userId = req.user?._id;
+
+      const user = await userModel.findById(userId);
+
+      if (avatar && user) {
+        if (user?.avatar?.public_id) {
+          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
+
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        } else {
+          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+          });
+          user.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+          };
+        }
+      }
+      await user?.save();
+
+      await redis.set(userId, JSON.stringify(user));
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
   }
 );
