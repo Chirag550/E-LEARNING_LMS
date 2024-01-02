@@ -4,7 +4,9 @@ import {
   addQuestion,
   addReplyToReview,
   addReview,
+  deleteCourse,
   getAllCourse,
+  getAllCourses,
   getCourseByUser,
   getSingleCourse,
   uploadCourse,
@@ -39,4 +41,17 @@ courseRouter.put(
   addReplyToReview
 );
 
+courseRouter.get(
+  "/get-Courses",
+  isAuthenticated,
+  authorizeRoles("admin"),
+  getAllCourses
+);
+
+courseRouter.delete(
+  "/delete-course/:id",
+  isAuthenticated,
+  authorizeRoles("admin"),
+  deleteCourse
+);
 export default courseRouter;
