@@ -16,6 +16,7 @@ import {
   updateUserRoleservice,
 } from "../services/user.services";
 import cloudinary from "cloudinary";
+import { stringify } from "querystring";
 
 //register user
 interface IRegisterationBody {
@@ -192,7 +193,9 @@ export const updateAccessToken = CatchAsyncError(
       }
       const session = await redis.get(decoded.id as string);
       if (!session) {
-        return next(new ErrorHandler(message, 400));
+        return next(
+          new ErrorHandler("Please Login to access this resource", 400)
+        );
       }
 
       const user = JSON.parse(session);
@@ -212,6 +215,8 @@ export const updateAccessToken = CatchAsyncError(
       req.user = user;
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+
+      await redis.set(user._id, JSON.stringify(user), "EX", 604800);
 
       res.status(201).json({
         status: "success",

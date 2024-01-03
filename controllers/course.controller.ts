@@ -86,7 +86,7 @@ export const getSingleCourse = CatchAsyncError(
           "-courseData.videoUrl -courseData.suggestion -courseData.question -courseData.links"
         );
 
-        await redis.set(courseId, JSON.stringify(course));
+        await redis.set(courseId, JSON.stringify(course), "EX", 604800);
 
         res.status(200).json({ success: true, course });
       }
@@ -112,7 +112,7 @@ export const getAllCourse = CatchAsyncError(
 
         res.status(200).json({ success: true, courses });
 
-        await redis.set("allcourses", JSON.stringify(courses));
+        await redis.set("allcourses", JSON.stringify(courses), "EX", 604800);
       }
     } catch (error: any) {
       return new ErrorHandler(error.message, 500);
