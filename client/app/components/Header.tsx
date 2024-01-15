@@ -8,6 +8,9 @@ import CustomModal from "../utils/CustomModal";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
 import Verification from "./Auth/Verification";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import avatar from "../../public/assests/avatar.jpeg";
 
 interface HeaderProps {
   open: boolean;
@@ -25,6 +28,7 @@ const Header: FC<HeaderProps> = ({
 }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const { user } = useSelector((state: any) => state.auth);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -73,11 +77,21 @@ const Header: FC<HeaderProps> = ({
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
-              <HiOutlineUserCircle
-                size={25}
-                className="hidden 800px:block cursor-pointer dark:text-white text-black"
-                onClick={() => setOpen(true)}
-              />
+              {user ? (
+                <Link href={"/profile"}>
+                  <Image
+                    src={user.avatar ? user.avatar : avatar}
+                    alt=""
+                    className="w-[30px] h-[30px] rounded-full cursor-pointer"
+                  />
+                </Link>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  className="hidden 800px:block cursor-pointer dark:text-white text-black"
+                  onClick={() => setOpen(true)}
+                />
+              )}
             </div>
           </div>
         </div>
