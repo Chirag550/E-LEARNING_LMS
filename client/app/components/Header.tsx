@@ -13,7 +13,10 @@ import Image from "next/image";
 import avatardefault from "../../public/assests/avatardefault.jpeg";
 
 import { useSession } from "next-auth/react";
-import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
+import {
+  useLogOutQuery,
+  useSocialAuthMutation,
+} from "../../redux/features/auth/authApi";
 import toast from "react-hot-toast";
 
 interface HeaderProps {
@@ -36,6 +39,8 @@ const Header: FC<HeaderProps> = ({
   const { data } = useSession();
   console.log(user);
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+  const [logout, setLogOut] = useState(false);
+  const {} = useLogOutQuery(undefined, { skip: !logout ? true : false });
 
   useEffect(() => {
     if (!user) {
@@ -47,16 +52,21 @@ const Header: FC<HeaderProps> = ({
         });
       }
     }
-    if (isSuccess) {
-      toast.success("Login Successfully");
-    }
-    if (error) {
-    }
+
     if (error) {
       if ("data" in error) {
         const errorData = error as any;
         toast.error(errorData.data.message);
       }
+    }
+
+    if (data === null) {
+      if (isSuccess) {
+        toast.success("Login Successfully");
+      }
+    }
+    if (data === null) {
+      setLogOut(true);
     }
   }, [data, user, isSuccess]);
 
@@ -110,9 +120,14 @@ const Header: FC<HeaderProps> = ({
               {user ? (
                 <Link href={"/profile"}>
                   <Image
-                    src={user.avatar ? user.avatar : avatardefault}
+                    src={user.avatar ? user.avatar.url : avatardefault}
                     alt=""
                     className="w-[30px] h-[30px] rounded-full cursor-pointer"
+                    width={30}
+                    height={30}
+                    style={{
+                      border: activeItem === 5 ? "2px solid #37a39a" : "none",
+                    }}
                   />
                 </Link>
               ) : (

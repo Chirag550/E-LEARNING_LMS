@@ -368,12 +368,14 @@ export const updateProfilePicture = CatchAsyncError(
             folder: "avatars",
             width: 150,
           });
+
           user.avatar = {
             public_id: myCloud.public_id,
             url: myCloud.secure_url,
           };
         }
       }
+
       await user?.save();
 
       await redis.set(userId, JSON.stringify(user));
