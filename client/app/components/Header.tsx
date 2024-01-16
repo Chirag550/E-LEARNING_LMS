@@ -10,8 +10,8 @@ import SignUp from "./Auth/SignUp";
 import Verification from "./Auth/Verification";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import avatar from "../../public/assests/avatar.jpeg";
-import { useServerInsertedHTML } from "next/navigation";
+import avatardefault from "../../public/assests/avatardefault.jpeg";
+
 import { useSession } from "next-auth/react";
 import { useSocialAuthMutation } from "@/redux/features/auth/authApi";
 import toast from "react-hot-toast";
@@ -110,7 +110,7 @@ const Header: FC<HeaderProps> = ({
               {user ? (
                 <Link href={"/profile"}>
                   <Image
-                    src={user.avatar ? user.avatar : avatar}
+                    src={user.avatar ? user.avatar : avatardefault}
                     alt=""
                     className="w-[30px] h-[30px] rounded-full cursor-pointer"
                   />

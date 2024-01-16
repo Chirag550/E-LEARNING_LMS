@@ -37,4 +37,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useRefershTokenQuery } = apiSlice;
+export const { useRefershTokenQuery, useLoadUserQuery } = apiSlice;
