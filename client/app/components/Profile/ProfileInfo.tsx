@@ -3,7 +3,10 @@ import { styles } from "../../../app/styles/style";
 import React, { FC, useEffect, useState } from "react";
 import { AiOutlineCamera } from "react-icons/ai";
 import avatardefault from "../../../public/assests/avatardefault.jpeg";
-import { useUpdateAvatarMutation } from "../../../redux/features/user/userApi";
+import {
+  useEditprofileMutation,
+  useUpdateAvatarMutation,
+} from "../../../redux/features/user/userApi";
 import { useLoadUserQuery } from "../../../redux/features/api/apiSlice";
 import { toast } from "react-hot-toast";
 import Loader from "../Loader/Loader";
@@ -17,6 +20,10 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
   const [name, setName] = useState(user && user.name);
   const [updateAvatar, { isSuccess, isLoading, error }] =
     useUpdateAvatarMutation();
+  const [
+    editprofile,
+    { isSuccess: success, error: updateError, isLoading: updateLoading },
+  ] = useEditprofileMutation();
 
   const [loadUser, setLoadUser] = useState(false);
   const {} = useLoadUserQuery(undefined, { skip: loadUser ? false : true });
@@ -38,12 +45,23 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
     if (isSuccess) {
       setLoadUser(true);
     }
-    if (error) {
+    if (error || updateError) {
       console.log(error);
     }
-  }, [isSuccess, error]);
+    if (success) {
+      toast.success("Profile updated successfully!");
+      setLoadUser(true);
+    }
+  }, [isSuccess, error, success, updateError]);
 
-  const handleSubmit = async (e: any) => {};
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (name !== "") {
+      editprofile({
+        name,
+      });
+    }
+  };
 
   return (
     <>
@@ -81,39 +99,43 @@ const ProfileInfo: FC<Props> = ({ avatar, user }) => {
       </div>
       <br />
       <br />
-      <div className="w-full pl-6 800px:pl-10">
-        <form onSubmit={handleSubmit}>
-          <div className="800px:w-[50%] m-auto block pb-4">
-            <div className="w-[100%]">
-              <label className="block pb-2">Full Name</label>
+      {updateLoading ? (
+        <Loader />
+      ) : (
+        <div className="w-full pl-6 800px:pl-10">
+          <form onSubmit={handleSubmit}>
+            <div className="800px:w-[50%] m-auto block pb-4">
+              <div className="w-[100%]">
+                <label className="block pb-2">Full Name</label>
+                <input
+                  type="text"
+                  className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="w-[100%] pt-2">
+                <label className="block pb-2">Email Address</label>
+                <input
+                  type="text"
+                  readOnly
+                  className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
+                  required
+                  value={user?.email}
+                />
+              </div>
               <input
-                type="text"
-                className={`${styles.input} !w-[95%] mb-4 800px:mb-0`}
+                className={`w-full 800px:w-[250px] h-[40px] border border-[#37a39a] text-center dark:text-[#fff] text-black rounded-[3px] mt-8 cursor-pointer`}
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value="Update"
+                type="submit"
               />
             </div>
-            <div className="w-[100%] pt-2">
-              <label className="block pb-2">Email Address</label>
-              <input
-                type="text"
-                readOnly
-                className={`${styles.input} !w-[95%] mb-1 800px:mb-0`}
-                required
-                value={user?.email}
-              />
-            </div>
-            <input
-              className={`w-full 800px:w-[250px] h-[40px] border border-[#37a39a] text-center dark:text-[#fff] text-black rounded-[3px] mt-8 cursor-pointer`}
-              required
-              value="Update"
-              type="submit"
-            />
-          </div>
-        </form>
-        <br />
-      </div>
+          </form>
+          <br />
+        </div>
+      )}
     </>
   );
 };
