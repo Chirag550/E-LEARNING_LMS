@@ -101,7 +101,7 @@ const Sidebar = () => {
           left: 0,
           height: "100vh",
           zIndex: 99999999999999,
-          width: isCollapsed ? "0%" : "16%",
+          width: isCollapsed ? "0vh" : "30vh",
         }}
       >
         <Menu iconShape="square">
@@ -118,7 +118,7 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
+                ml="10px"
               >
                 <Link href="/" className="block">
                   <h3 className="text-[25px] font-Poppins uppercase dark:text-white text-black">
@@ -170,7 +170,7 @@ const Sidebar = () => {
             </Box>
           )}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={isCollapsed ? undefined : "8%"}>
             <Item
               title="Dashboard"
               to="/admin"

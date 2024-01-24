@@ -19,8 +19,10 @@ const page = () => {
           <div className="1500px:w-[15%] w-1/5">
             <AdminSidebar />
           </div>
+          <div></div>
           <div className="w-[85%]">
             <DashBoardHero />
+            Chirag
           </div>
         </div>
       </AdminProtected>
