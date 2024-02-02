@@ -5,9 +5,10 @@ import {
   addReplyToReview,
   addReview,
   deleteCourse,
+  editCourse,
   generateVideoUrl,
+  getAdminAllCourses,
   getAllCourse,
-  getAllCourses,
   getCourseByUser,
   getSingleCourse,
   uploadCourse,
@@ -26,7 +27,7 @@ courseRouter.put(
   "/edit-course/:id",
   isAuthenticated,
   authorizeRoles("admin"),
-  uploadCourse
+  editCourse
 );
 
 courseRouter.get("/get-course/:id", getSingleCourse);
@@ -42,18 +43,24 @@ courseRouter.put(
   addReplyToReview
 );
 
-courseRouter.get(
-  "/get-Courses",
-  isAuthenticated,
-  authorizeRoles("admin"),
-  getAllCourses
-);
+// courseRouter.get(
+//   "/get-Courses",
+//   isAuthenticated,
+//   authorizeRoles("admin"),
+//   getAllCourses
+// );
 
 courseRouter.delete(
   "/delete-course/:id",
   isAuthenticated,
   authorizeRoles("admin"),
   deleteCourse
+);
+courseRouter.get(
+  "/get-admin-courses",
+  isAuthenticated,
+  authorizeRoles("admin"),
+  getAdminAllCourses
 );
 
 courseRouter.post("/getVdoCipherOTP", generateVideoUrl);

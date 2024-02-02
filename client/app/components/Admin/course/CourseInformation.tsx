@@ -17,8 +17,6 @@ const CourseInformation: FC<Props> = ({
 }) => {
   const [dragging, setDragging] = useState(false);
 
-  const [categories, setCategories] = useState([]);
-
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setActive(active + 1);
@@ -157,7 +155,7 @@ const CourseInformation: FC<Props> = ({
             ${styles.input}`}
             />
           </div>
-          <div className="w-[50%]">
+          {/* <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
               Course Categories
             </label>
@@ -178,7 +176,7 @@ const CourseInformation: FC<Props> = ({
                   </option>
                 ))}
             </select>
-          </div>
+          </div> */}
         </div>
         <br />
         <div className="w-full flex justify-between">
