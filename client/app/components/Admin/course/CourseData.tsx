@@ -1,5 +1,5 @@
 import { styles } from "@/app/styles/style";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
@@ -60,6 +60,7 @@ const CourseData: FC<Props> = ({
           What are the benefits for students in this course?
         </label>
         <br />
+
         {benefits.map((benefit: any, index: number) => (
           <input
             type="text"

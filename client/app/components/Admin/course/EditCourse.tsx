@@ -24,6 +24,10 @@ const EditCourse: FC<Props> = ({ id }) => {
   );
 
   const editCourseData = data && data.courses.find((i: any) => i._id === id);
+  console.log(editCourseData);
+  const formattedBenefits = editCourseData.benefits.map((benefit: any) => ({
+    title: benefit.title,
+  }));
 
   useEffect(() => {
     if (isSuccess) {
@@ -53,7 +57,7 @@ const EditCourse: FC<Props> = ({ id }) => {
         demoUrl: editCourseData.demoUrl,
         thumbnail: editCourseData?.thumbnail?.url,
       });
-      setBenefits(editCourseData.benefits);
+      setBenefits(formattedBenefits);
       setPrerequisites(editCourseData.prerequisites);
       setCourseContentData(editCourseData.courseData);
     }
@@ -89,13 +93,13 @@ const EditCourse: FC<Props> = ({ id }) => {
   ]);
 
   const [courseData, setCourseData] = useState({});
-  console.log(benefits);
 
   const handleSubmit = async () => {
     // Format benefits array
     const formattedBenefits = benefits.map((benefit) => ({
       title: benefit.title,
     }));
+
     // Format prerequisites array
     const formattedPrerequisites = prerequisites.map((prerequisite) => ({
       title: prerequisite.title,

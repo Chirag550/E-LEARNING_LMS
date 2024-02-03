@@ -155,6 +155,7 @@ const CourseInformation: FC<Props> = ({
             ${styles.input}`}
             />
           </div>
+
           {/* <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
               Course Categories

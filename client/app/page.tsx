@@ -3,6 +3,7 @@
 import React, { useState, FC } from "react";
 import Heading from "./utils/Heading";
 import Header from "./components/Header";
+import EditHero from "./components/Customization/EditHero";
 
 interface Props {}
 
@@ -25,6 +26,7 @@ const Page: FC<Props> = (props) => {
         setRoute={setRoute}
         route={route}
       />
+      <EditHero />
     </div>
   );
 };
