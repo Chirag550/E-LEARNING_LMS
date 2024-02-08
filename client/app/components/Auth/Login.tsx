@@ -17,6 +17,7 @@ interface Props {
   setOpen: (open: boolean) => void;
 }
 //Validation for email and password input
+
 const schema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email")

@@ -1,4 +1,5 @@
 import { styles } from "@/app/styles/style";
+import { useGetHeroDataQuery } from "../../../../redux/features/layout/layoutApi";
 
 import React, { FC, useEffect, useState } from "react";
 
@@ -15,6 +16,14 @@ const CourseInformation: FC<Props> = ({
   active,
   setActive,
 }) => {
+  const { data } = useGetHeroDataQuery("Categories", {});
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    if (data) {
+      setCategories(data.layout.categories);
+    }
+  }, [data]);
+  console.log(data);
   const [dragging, setDragging] = useState(false);
 
   const handleSubmit = (e: any) => {
@@ -156,28 +165,34 @@ const CourseInformation: FC<Props> = ({
             />
           </div>
 
-          {/* <div className="w-[50%]">
+          <div className="w-[50%]">
             <label className={`${styles.label} w-[50%]`}>
               Course Categories
             </label>
             <select
               name=""
               id=""
-              className={`${styles.input}`}
+              className="w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins"
               value={courseInfo.category}
               onChange={(e: any) =>
-                setCourseInfo({ ...courseInfo, categories: e.target.value })
+                setCourseInfo({ ...courseInfo, category: e.target.value })
               }
             >
-              <option value="">Select Category</option>
+              <option className="bg-[#1c2024]" value="">
+                Select Category
+              </option>
               {categories &&
                 categories.map((item: any) => (
-                  <option value={item.title} key={item._id}>
+                  <option
+                    className="bg-[#1c2024]"
+                    value={item.title}
+                    key={item._id}
+                  >
                     {item.title}
                   </option>
                 ))}
             </select>
-          </div> */}
+          </div>
         </div>
         <br />
         <div className="w-full flex justify-between">
