@@ -1,5 +1,5 @@
 "use client";
-import AllCourses from "../../components/Admin/course/AllCourses";
+
 import DashBoardHero from "../../../app/components/Admin/DashBoardHero";
 import AdminSidebar from "../../../app/components/Admin/sidebar/AdminSidebar";
 import AdminProtected from "../../../app/hooks/AdminProtected";

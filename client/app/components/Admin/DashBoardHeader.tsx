@@ -1,11 +1,9 @@
 "use client";
 import ThemeSwitcher from "../../../app/utils/ThemeSwitcher";
 
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { format } from "timeago.js";
-
-const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 
 type Props = {
   open?: boolean;

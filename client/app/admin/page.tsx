@@ -14,15 +14,14 @@ const page = () => {
           description="Elearning is a platform for students to learn and get help from teachers"
           keywords="Programming , MERN ,REDUX , Machine Learning"
         />
-        <div className="flex h-[200vh]">
+        <div className="flex h-full">
           {" "}
-          <div className="1500px:w-[15%] w-1/5">
+          <div className="1500px:w-[19%] w-1/5">
             <AdminSidebar />
           </div>
           <div></div>
           <div className="w-[85%]">
-            <DashBoardHero />
-            
+            <DashBoardHero isDashboard={true} />
           </div>
         </div>
       </AdminProtected>
