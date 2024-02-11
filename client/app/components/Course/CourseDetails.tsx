@@ -9,6 +9,7 @@ import { format } from "timeago.js";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
 import { VscVerifiedFilled } from "react-icons/vsc";
+import CourseContentList from "./CourseContentList";
 
 type Props = {
   data: any;
@@ -97,7 +98,7 @@ const CourseDetails = ({ data }: Props) => {
               <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                 Course Overview
               </h1>
-              {/* {coursecontentList} */}
+              <CourseContentList isDemo={true} data={data?.courseData} />
             </div>
             <br />
             <br />

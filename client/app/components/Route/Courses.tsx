@@ -5,12 +5,16 @@ import CourseCard from "../Course/CourseCard";
 type Props = {};
 
 const Courses = (props: Props) => {
-  const { data, isLoading } = useGetUsersAllCoursesQuery({});
+  const { data, refetch } = useGetUsersAllCoursesQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
   const [courses, setCourses] = useState<any[]>([]);
 
   useEffect(() => {
     setCourses(data?.courses);
-  }, [data]);
+    refetch();
+  }, [data, refetch]);
 
   return (
     <div>
