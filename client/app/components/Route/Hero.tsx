@@ -12,7 +12,6 @@ const Hero: FC<Props> = (props) => {
   const { data, refetch } = useGetHeroDataQuery("Banner", {});
   return (
     <>
-      (
       <div className="w-full h-full 1000px:flex items-center">
         <div className="absolute top-[100px] 1000px:top-[unset] 1500px:h-[600px] 1500px:w-[600px] 1100px:h-[500px] 1100px:w-[600px] h-[50vh]  w-[40vh] hero_animation rounded-[50%] 1100px:left-8 1500px:left-[1rem]"></div>
         <div className="1000px:w-[40%] flex 1000px:min-h-screen items-center justify-end pt-[70px] 1000px:pt-[0] z-10">
@@ -81,7 +80,6 @@ const Hero: FC<Props> = (props) => {
           <br />
         </div>
       </div>
-      )
     </>
   );
 };

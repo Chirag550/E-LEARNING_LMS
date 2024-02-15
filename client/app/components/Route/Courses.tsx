@@ -15,6 +15,7 @@ const Courses = (props: Props) => {
     setCourses(data?.courses);
     refetch();
   }, [data, refetch]);
+  console.log(data);
 
   return (
     <div>

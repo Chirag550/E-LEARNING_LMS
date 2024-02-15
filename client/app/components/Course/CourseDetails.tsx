@@ -8,14 +8,18 @@ import { format } from "timeago.js";
 
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Image from "next/image";
+import { Elements } from "@stripe/react-stripe-js";
 import { VscVerifiedFilled } from "react-icons/vsc";
 import CourseContentList from "./CourseContentList";
+import CheckOutForm from "../Payment/CheckOutForm";
 
 type Props = {
   data: any;
+  clientSecret: string;
+  stripePromise: any;
 };
 
-const CourseDetails = ({ data }: Props) => {
+const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
   const { data: userData, refetch } = useLoadUserQuery(undefined, {});
   const [user, setUser] = useState<any>();
   const [open, setOpen] = useState(false);
@@ -32,7 +36,9 @@ const CourseDetails = ({ data }: Props) => {
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 
-  const handleOrder = (e: any) => {};
+  const handleOrder = (e: any) => {
+    setOpen(true);
+  };
 
   return (
     <div>
@@ -217,7 +223,33 @@ const CourseDetails = ({ data }: Props) => {
           </div>
         </div>
       </div>
-      <></>
+      <>
+        {open && (
+          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center">
+            <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
+              <div className="w-full flex justify-end">
+                <IoCloseOutline
+                  size={40}
+                  className="text-black cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="w-full">
+                {stripePromise && clientSecret && (
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <CheckOutForm
+                      setOpen={setOpen}
+                      data={data}
+                      user={user}
+                      refetch={refetch}
+                    />
+                  </Elements>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     </div>
   );
 };
