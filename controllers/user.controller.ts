@@ -16,7 +16,6 @@ import {
   updateUserRoleservice,
 } from "../services/user.services";
 import cloudinary from "cloudinary";
-import { stringify } from "querystring";
 
 //register user
 interface IRegisterationBody {
