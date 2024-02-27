@@ -11,6 +11,7 @@ import ejs from "ejs";
 import path from "path";
 import sendmail from "../utils/sendMail";
 import axios from "axios";
+import NotificationModel from "../models/notification.Model";
 
 //upload course
 export const uploadCourse = CatchAsyncError(
@@ -203,6 +204,13 @@ export const addQuestion = CatchAsyncError(
 
       courseContent.questions.push(newQuestion);
 
+      //notification
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "New Question Received",
+        message: `You have a new question in ${courseContent.title}`,
+      });
+
       //save the updated course
 
       await course?.save();
@@ -254,6 +262,8 @@ export const addAnswer = CatchAsyncError(
       const newAnswer: any = {
         user: req.user,
         answer,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       question.questionReplies.push(newAnswer);
@@ -262,6 +272,11 @@ export const addAnswer = CatchAsyncError(
 
       if (req.user?._id === question.user._id) {
         //send notification to admin
+        await NotificationModel.create({
+          user: req.user?._id,
+          title: "New Question Reply Received",
+          message: `You have a new question reply in ${courseContent.title}`,
+        });
       } else {
         const data = {
           name: question.user.name,
@@ -341,12 +356,14 @@ export const addReview = CatchAsyncError(
 
       await course?.save();
 
-      const notification = {
-        title: "New Review Received",
-        message: `${req.user?.name} has given a review in ${course?.name}`,
-      };
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800); // 7days
 
       //create noitication
+      await NotificationModel.create({
+        user: req.user?._id,
+        title: "New Review Received",
+        message: `${req.user?.name} has given a review in ${course?.name}`,
+      });
 
       res.status(200).json({
         success: true,
@@ -387,6 +404,8 @@ export const addReplyToReview = CatchAsyncError(
       const replyData: any = {
         user: req.user,
         comment,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       if (!review.commentReplies) {
