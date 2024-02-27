@@ -144,7 +144,7 @@ const CourseContentMedia = ({
     if (replyError) {
       if ("data" in replyError) {
         const errorMessage = error as any;
-        toast.error(errorMessage.data.message);
+        toast.error(errorMessage.data?.message);
       }
     }
   }, [

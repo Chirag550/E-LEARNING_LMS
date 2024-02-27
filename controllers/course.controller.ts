@@ -394,7 +394,7 @@ export const addReplyToReview = CatchAsyncError(
       }
 
       const review = course?.reviews?.find(
-        (rev: any) => rev._id.tostring() === reviewId
+        (rev: any) => rev._id.toString() === reviewId
       );
 
       if (!review) {
@@ -415,6 +415,7 @@ export const addReplyToReview = CatchAsyncError(
       review.commentReplies?.push(replyData);
 
       await course?.save();
+      await redis.set(courseId, JSON.stringify(course), "EX", 604800); // 7days
 
       res.status(200).json({ success: true, course });
     } catch (error: any) {
