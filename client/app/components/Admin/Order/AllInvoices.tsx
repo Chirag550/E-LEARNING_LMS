@@ -23,7 +23,7 @@ const AllInvoices = ({ isDashboard }: Props) => {
 
   useEffect(() => {
     if (data) {
-      const temp = data.orders?.map((item: any) => {
+      const temp = data.users?.map((item: any) => {
         const user = usersData?.users.find(
           (user: any) => user._id === item.userId
         );
@@ -35,9 +35,10 @@ const AllInvoices = ({ isDashboard }: Props) => {
           userName: user?.name,
           userEmail: user?.email,
           title: course?.name,
-          price: "$" + course?.price,
+          price: "₹" + course?.price,
         };
       });
+
       setOrderData(temp);
     }
   }, [data, usersData, coursesData]);
@@ -74,7 +75,7 @@ const AllInvoices = ({ isDashboard }: Props) => {
   ];
 
   const rows: any = [];
-
+  console.log(orderData);
   orderData &&
     orderData.forEach((item: any) => {
       rows.push({

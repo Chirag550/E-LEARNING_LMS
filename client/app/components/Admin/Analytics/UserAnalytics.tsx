@@ -69,7 +69,7 @@ const UserAnalytics = ({ isDashboard }: Props) => {
 
           <div
             className={`w-full ${
-              isDashboard ? "h-[30vh]" : "h-screen"
+              isDashboard ? "h-[25vh] 800px:h-[30vh]" : "h-screen"
             } flex items-center justify-center`}
           >
             <ResponsiveContainer

@@ -6,7 +6,10 @@ const About = () => {
     <div className="text-black dark:text-white">
       <br />
       <h1 className={`${styles.title} 800px:!text-[45px]`}>
-        What is <span className="text-gradient">Elearning LMS Platform?</span>
+        What is{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+          Elearning LMS Platform?
+        </span>
       </h1>
 
       <br />

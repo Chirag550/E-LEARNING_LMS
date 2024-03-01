@@ -111,8 +111,11 @@ const CreateCourse = (props: Props) => {
   };
 
   return (
-    <div className="w-full flex   min-h-screen">
-      <div className="w-[80%]  ">
+    <div className="w-full flex flex-col min-h-screen">
+      <div className="w-[20%] mt-[100px] h-full 800px:h-screen 800px:fixed  z-[-1]top-18 right-0">
+        <CourseOptions active={active} setActive={setActive} />
+      </div>
+      <div className="w-[100%] 800px:w-[80%]  ">
         {active === 0 && (
           <CourseInformation
             courseInfo={courseInfo}
@@ -149,9 +152,6 @@ const CreateCourse = (props: Props) => {
             isEdit={false}
           />
         )}
-      </div>
-      <div className="w-[20%] mt-[100px] h-screen fixed z-[-1]top-18 right-0">
-        <CourseOptions active={active} setActive={setActive} />
       </div>
     </div>
   );

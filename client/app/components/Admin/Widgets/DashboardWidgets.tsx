@@ -99,13 +99,13 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
 
   return (
     <div className="mt-[30px] min-h-screen">
-      <div className="grid grid-cols-[75%,25%]">
-        <div className="p-8 ">
+      <div className="grid 800px:grid-cols-[75%,25%]">
+        <div className=" pt-[10px]  800px:p-7 ">
           <UserAnalytics isDashboard={true} />
         </div>
 
-        <div className="pt-[80px] pr-8">
-          <div className="w-full dark:bg-[#111C43] rounded-sm shadow">
+        <div className=" pt-[20px] 800px:pt-[40px] p-[5px] 800px:block flex items-center justify-between">
+          <div className="w-full dark:bg-[#111C43] rounded-sm shadow my-10 mr-[10px] 800px:my-8">
             <div className="flex items-center p-5 justify-between">
               <div className="">
                 <BiBorderLeft className="dark:text-[#45CBA0] text-[#000] text-[30px]" />
@@ -132,7 +132,7 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
             </div>
           </div>
 
-          <div className="w-full dark:bg-[#111C43] rounded-sm shadow my-8">
+          <div className="w-full dark:bg-[#111C43] rounded-sm shadow 800px:my-8 my-10">
             <div className="flex items-center p-5 justify-between">
               <div className="">
                 <PiUsersFourLight className="dark:text-[#45CBA0] text-[#000] text-[30px]" />
@@ -161,8 +161,8 @@ const DashboardWidgets: FC<Props> = ({ open }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-[65%,35%] mt-[-20px]">
-        <div className="dark:bg-[#111c43] w-[94%] mt-[30px] h-[40vh] shadow-sm m-auto">
+      <div className="grid 800px:grid-cols-[65%,35%] mt-[-20px]">
+        <div className="dark:bg-[#111c43] w-[95%] 800px:w-[94%] mt-[0px]  h-[30vh] 800px:h-[40vh] shadow-sm m-auto ">
           <OrdersAnalytics isDashboard={true} />
         </div>
         <div className="p-5">

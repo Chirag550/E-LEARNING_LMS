@@ -72,7 +72,7 @@ const CourseInformation: FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24">
+    <div className="w-[80%] m-auto mt-15 800px:mt-24">
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="" className={`${styles.label}`}>

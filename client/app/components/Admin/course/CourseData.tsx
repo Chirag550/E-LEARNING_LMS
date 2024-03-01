@@ -54,7 +54,7 @@ const CourseData: FC<Props> = ({
     }
   };
   return (
-    <div className="w-[80%] m-auto mt-24 block">
+    <div className="w-[80%] m-auto mt-15 800px:mt-24 block">
       <div>
         <label className={`${styles.label} text-[20px]`} htmlFor="email">
           What are the benefits for students in this course?
@@ -103,13 +103,13 @@ const CourseData: FC<Props> = ({
       </div>
       <div className="w-full flex items-center justify-between">
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 m-[20px] cursor-pointer"
           onClick={() => prevButton()}
         >
           Prev
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 m-[20px] cursor-pointer"
           onClick={() => handleOptions()}
         >
           Next

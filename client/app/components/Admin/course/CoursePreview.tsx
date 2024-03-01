@@ -31,7 +31,7 @@ const CoursePreview: FC<Props> = ({
   };
   const discountPercentengePrice = dicountPercentenge.toFixed(0);
   return (
-    <div className="w-[90%] m-auto py-5 mb-5">
+    <div className="w-[90%] m-auto mt-15 800px:mt-24  py-5 mb-5">
       <div className="w-[90%] relative">
         <div className="w-full mt-10">
           <CoursePlayer
@@ -133,13 +133,13 @@ const CoursePreview: FC<Props> = ({
       </div>
       <div className="w-full flex items-center justify-between">
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 m-[20px] cursor-pointer"
           onClick={() => prevButton()}
         >
           Prev
         </div>
         <div
-          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 m-[20px] cursor-pointer"
           onClick={() => createCourse()}
         >
           {isEdit ? "Update" : "Create"}

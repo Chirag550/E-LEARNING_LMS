@@ -20,7 +20,7 @@ const page = () => {
             <AdminSidebar />
           </div>
           <div></div>
-          <div className="w-[85%]">
+          <div className="w-[85%] min-h-screen">
             <DashBoardHero isDashboard={true} />
           </div>
         </div>
