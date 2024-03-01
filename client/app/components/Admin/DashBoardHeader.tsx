@@ -24,12 +24,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   });
   const [updateNotificationStatus, { isSuccess }] =
     useUpdateNotificationStatusMutation();
-  const [audio] = useState<any>(
-    typeof window !== "undefined" &&
-      new Audio(
-        "https://res.cloudinary.com/damk25wo5/video/upload/v1693465789/notification_vcetjn.mp3"
-      )
-  );
+  const [audio] = useState<any>(typeof window !== "undefined" && new Audio());
 
   const playNotificationSound = () => {
     audio.play();
@@ -52,7 +47,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
       refetch();
       playNotificationSound();
     });
-  }, []);
+  }, [refetch]);
 
   const handleNotificationStatusChange = async (id: string) => {
     await updateNotificationStatus(id);
