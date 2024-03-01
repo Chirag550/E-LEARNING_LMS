@@ -18,6 +18,7 @@ import {
   useSocialAuthMutation,
 } from "../../redux/features/auth/authApi";
 import toast from "react-hot-toast";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 interface HeaderProps {
   open: boolean;
@@ -35,40 +36,48 @@ const Header: FC<HeaderProps> = ({
 }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const { user } = useSelector((state: any) => state.auth);
+
   const { data } = useSession();
-  console.log(user);
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useLoadUserQuery(undefined, {});
+
   const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
   const [logout, setLogOut] = useState(false);
   const {} = useLogOutQuery(undefined, { skip: !logout ? true : false });
 
   useEffect(() => {
-    if (!user) {
-      if (data) {
-        socialAuth({
-          email: data?.user?.email,
-          name: data?.user?.name,
-          avatar: data.user?.image,
-        });
+    if (!isLoading) {
+      if (!userData) {
+        if (data) {
+          socialAuth({
+            email: data?.user?.email,
+            name: data?.user?.name,
+            avatar: data.user?.image,
+          });
+          refetch();
+        }
       }
-    }
 
-    if (error) {
-      if ("data" in error) {
-        const errorData = error as any;
-        toast.error(errorData.data.message);
+      if (error) {
+        if ("data" in error) {
+          const errorData = error as any;
+          toast.error(errorData.data.message);
+        }
       }
-    }
 
-    if (data === null) {
-      if (isSuccess) {
-        toast.success("Login Successfully");
+      if (data === null) {
+        if (isSuccess) {
+          toast.success("Login Successfully");
+        }
+      }
+      if (data === null && !isLoading && !userData) {
+        setLogOut(true);
       }
     }
-    if (data === null) {
-      setLogOut(true);
-    }
-  }, [data, user, isSuccess]);
+  }, [data, isSuccess, isLoading, userData, error, socialAuth, refetch]);
 
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
@@ -117,10 +126,14 @@ const Header: FC<HeaderProps> = ({
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
-              {user ? (
+              {userData ? (
                 <Link href={"/profile"}>
                   <Image
-                    src={user.avatar ? user.avatar.url : avatardefault}
+                    src={
+                      userData.user.avatar
+                        ? userData.user.avatar.url
+                        : avatardefault
+                    }
                     alt=""
                     className="w-[30px] h-[30px] rounded-full cursor-pointer"
                     width={30}
@@ -177,6 +190,7 @@ const Header: FC<HeaderProps> = ({
               setRoute={setRoute}
               activeItem={activeItem}
               component={Login}
+              refetch={refetch}
             />
           )}
         </>

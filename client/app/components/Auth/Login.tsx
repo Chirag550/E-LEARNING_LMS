@@ -15,6 +15,7 @@ import { signIn } from "next-auth/react";
 interface Props {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
+  refetch?: any;
 }
 //Validation for email and password input
 
@@ -24,7 +25,7 @@ const schema = Yup.object().shape({
     .required("Please enter your email"),
   password: Yup.string().required("Please enter your password").min(6),
 });
-const Login: FC<Props> = ({ setRoute, setOpen }) => {
+const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error, data }] = useLoginMutation();
   useEffect(() => {
@@ -32,6 +33,7 @@ const Login: FC<Props> = ({ setRoute, setOpen }) => {
       const message = data?.message || "user Login succesful";
       toast.success(message);
       setOpen(false);
+      refetch();
     }
     if (error) {
       if ("data" in error) {
